@@ -456,9 +456,13 @@ public interface Game extends MageItem, Serializable, Copyable<Game> {
     //game transaction methods
     void saveState(boolean bookmark);
 
+    void saveStateToFile(String saveFileName);
+
     int bookmarkState();
 
     GameState restoreState(int bookmark, String context);
+
+    GameState restoreStateFromFile(String saveFileName);
 
     void removeBookmark(int bookmark);
 

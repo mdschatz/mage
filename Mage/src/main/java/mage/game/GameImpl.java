@@ -64,7 +64,11 @@ import mage.watchers.Watcher;
 import mage.watchers.common.*;
 import org.apache.log4j.Logger;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.*;
 import java.util.Map.Entry;
@@ -741,6 +745,21 @@ public abstract class GameImpl implements Game {
         }
     }
 
+    public void saveStateToFile(String saveFileName) {
+	if (!simulation && gameStates != null) {
+            try {
+	        FileOutputStream saveFile = new FileOutputStream(saveFileName);
+		ObjectOutputStream out = new ObjectOutputStream(saveFile);
+		out.writeObject(state);
+                out.close();
+		saveFile.close();
+		logger.info("Saved to " + saveFileName);
+	    } catch (IOException i) {
+		i.printStackTrace();
+	    }
+        }
+    }
+
     //    /**
 //     * Starts check if game is over or if playerId is given let the player
 //     * concede.
@@ -896,6 +915,29 @@ public abstract class GameImpl implements Game {
             }
         }
         return null;
+    }
+
+    public GameState restoreStateFromFile(String saveFileName) {
+        GameState restore = null;
+	try {
+	    FileInputStream fileIn = new FileInputStream(saveFileName);
+	    ObjectInputStream in = new ObjectInputStream(fileIn);
+	    restore = (GameState) in.readObject();
+	    in.close();
+	    fileIn.close();
+	} catch (IOException i) {
+	    i.printStackTrace();
+	} catch (ClassNotFoundException c) {
+	    logger.error("Class not found during deserialization");
+	    c.printStackTrace();
+	}
+	if (restore != null) {
+	    state.restore(restore);
+	    playerList.setCurrent(state.getPlayerByOrderId());
+	    logger.info("Restored state from " + saveFileName);
+	    return state;
+	}
+	return null;
     }
 
     @Override

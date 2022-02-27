@@ -499,7 +499,14 @@ public class GameController implements GameCallback {
             case ROLLBACK_TURNS: // basic request of a player to rollback
                 if (data instanceof Integer) {
                     turnsToRollback = (Integer) data;
-                    if (game.canRollbackTurns(turnsToRollback)) {
+		    String fileName = "./gameState.sav";
+		    if (turnsToRollback == 4) {
+		        // Load saved state
+			game.restoreStateFromFile(fileName);
+		    } else if (turnsToRollback == 5) {
+			// Save current game state
+                        game.saveStateToFile(fileName);
+		    } else if (game.canRollbackTurns(turnsToRollback)) {
                         UUID playerId = getPlayerId(userId);
                         if (game.getPriorityPlayerId().equals(playerId)) {
                             requestsOpen = requestPermissionToRollback(userId, turnsToRollback);

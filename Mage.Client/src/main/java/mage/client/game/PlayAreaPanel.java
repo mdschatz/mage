@@ -376,6 +376,18 @@ public class PlayAreaPanel extends javax.swing.JPanel {
             menuItem.addActionListener(rollBackActionListener);
             rollbackMainItem.add(menuItem);
 
+            menuItem = new JMenuItem("Load the saved state");
+            menuItem.setMnemonic(KeyEvent.VK_4);
+            menuItem.setActionCommand("4");
+            menuItem.addActionListener(rollBackActionListener);
+            rollbackMainItem.add(menuItem);
+
+            menuItem = new JMenuItem("Save the current state to file");
+            menuItem.setMnemonic(KeyEvent.VK_5);
+            menuItem.setActionCommand("5");
+            menuItem.addActionListener(rollBackActionListener);
+            rollbackMainItem.add(menuItem);
+
         }
 
         JMenu concedeMenu = new JMenu("Concede");

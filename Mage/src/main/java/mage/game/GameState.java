@@ -271,7 +271,9 @@ public class GameState implements Serializable, Copyable<GameState> {
         this.values = state.values;
         for (Player copyPlayer : state.players.values()) {
             Player origPlayer = players.get(copyPlayer.getId());
-            origPlayer.restore(copyPlayer);
+	    if (origPlayer != null) {
+                origPlayer.restore(copyPlayer);
+	    }
         }
         this.zones = state.zones;
         this.simultaneousEvents = state.simultaneousEvents;
