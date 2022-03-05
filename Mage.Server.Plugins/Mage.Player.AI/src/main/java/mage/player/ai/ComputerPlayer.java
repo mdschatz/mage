@@ -84,7 +84,11 @@ public class ComputerPlayer extends PlayerImpl implements Player {
     private transient ManaCost currentUnpaidMana;
 
     public ComputerPlayer(String name, RangeOfInfluence range) {
-        super(name, range);
+        this(name, range, UUID.randomUUID());
+    }
+
+    public ComputerPlayer(String name, RangeOfInfluence range, UUID playerId) {
+        super(name, range, playerId);
         human = false;
         userData = UserData.getDefaultUserDataView();
         userData.setAvatarId(64);

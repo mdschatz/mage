@@ -746,17 +746,8 @@ public abstract class GameImpl implements Game {
     }
 
     public void saveStateToFile(String saveFileName) {
-	if (!simulation && gameStates != null) {
-            try {
-	        FileOutputStream saveFile = new FileOutputStream(saveFileName);
-		ObjectOutputStream out = new ObjectOutputStream(saveFile);
-		out.writeObject(state);
-                out.close();
-		saveFile.close();
-		logger.info("Saved to " + saveFileName);
-	    } catch (IOException i) {
-		i.printStackTrace();
-	    }
+        if (!simulation && gameStates != null) {
+            state.saveStateToFile(saveFileName);
         }
     }
 
@@ -918,26 +909,15 @@ public abstract class GameImpl implements Game {
     }
 
     public GameState restoreStateFromFile(String saveFileName) {
-        GameState restore = null;
-	try {
-	    FileInputStream fileIn = new FileInputStream(saveFileName);
-	    ObjectInputStream in = new ObjectInputStream(fileIn);
-	    restore = (GameState) in.readObject();
-	    in.close();
-	    fileIn.close();
-	} catch (IOException i) {
-	    i.printStackTrace();
-	} catch (ClassNotFoundException c) {
-	    logger.error("Class not found during deserialization");
-	    c.printStackTrace();
-	}
-	if (restore != null) {
-	    state.restore(restore);
-	    playerList.setCurrent(state.getPlayerByOrderId());
-	    logger.info("Restored state from " + saveFileName);
-	    return state;
-	}
-	return null;
+        GameState restore = GameState.restoreStateFromFile(saveFileName);
+        if (restore != null) {
+           state.restore(restore);
+           playerList.setCurrent(state.getPlayerByOrderId());
+           logger.info("Restored state from " + saveFileName);
+           return state;
+        }
+        return null;
+
     }
 
     @Override

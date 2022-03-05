@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.UUID;
 
 /**
  * @author ayratn
@@ -18,7 +19,11 @@ public class ComputerPlayer7 extends ComputerPlayer6 {
     private boolean allowBadMoves;
 
     public ComputerPlayer7(String name, RangeOfInfluence range, int skill) {
-        super(name, range, skill);
+        this(name, range, skill, UUID.randomUUID());
+    }
+
+    public ComputerPlayer7(String name, RangeOfInfluence range, int skill, UUID playerId) {
+        super(name, range, skill, playerId);
     }
 
     public ComputerPlayer7(final ComputerPlayer7 player) {

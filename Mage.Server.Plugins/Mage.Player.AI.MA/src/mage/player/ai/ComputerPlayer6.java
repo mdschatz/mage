@@ -79,7 +79,11 @@ public class ComputerPlayer6 extends ComputerPlayer /*implements Player*/ {
     }
 
     public ComputerPlayer6(String name, RangeOfInfluence range, int skill) {
-        super(name, range);
+        this(name, range, skill, UUID.randomUUID());
+    }
+
+    public ComputerPlayer6(String name, RangeOfInfluence range, int skill, UUID playerId) {
+        super(name, range, playerId);
         if (skill < 4) {
             maxDepth = 4;
         } else {

@@ -187,7 +187,11 @@ public abstract class PlayerImpl implements Player, Serializable {
             put(PhaseStep.DECLARE_ATTACKERS, Step.StepPart.PRE).build();
 
     public PlayerImpl(String name, RangeOfInfluence range) {
-        this(UUID.randomUUID());
+        this(name, range, UUID.randomUUID());
+    }
+
+    public PlayerImpl(String name, RangeOfInfluence range, UUID playerId) {
+        this(playerId);
         this.name = name;
         this.range = range;
         hand = new CardsImpl();

@@ -96,7 +96,10 @@ public class HumanPlayer extends PlayerImpl {
     protected boolean activatingMacro = false;
 
     public HumanPlayer(String name, RangeOfInfluence range, int skill) {
-        super(name, range);
+        this(name, range, skill, UUID.randomUUID());
+    }
+    public HumanPlayer(String name, RangeOfInfluence range, int skill, UUID playerId) {
+        super(name, range, playerId);
         human = true;
 
         replacementEffectChoice = new ChoiceImpl(true);
