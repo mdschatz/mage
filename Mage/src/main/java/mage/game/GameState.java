@@ -35,7 +35,7 @@ import mage.watchers.Watcher;
 import mage.watchers.Watchers;
 import org.apache.log4j.Logger;
 
-import java.io.*;
+import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -197,50 +197,6 @@ public class GameState implements Serializable, Copyable<GameState> {
         this.commandersToStay.addAll(state.commandersToStay);
         this.hasDayNight = state.hasDayNight;
         this.isDaytime = state.isDaytime;
-    }
-
-    public static GameState restoreStateFromFile(String saveFileName) {
-        GameState restore = null;
-        try {
-            FileInputStream fileIn = new FileInputStream(saveFileName);
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            restore = (GameState) in.readObject();
-            in.close();
-            fileIn.close();
-        } catch (IOException i) {
-            i.printStackTrace();
-        } catch (ClassNotFoundException c) {
-            logger.error("Class not found during deserialization");
-            c.printStackTrace();
-        }
-
-        if (restore == null) {
-            logger.error("Could not restore state from " + saveFileName);
-        }
-        logger.info("Restored state from " + saveFileName);
-        return restore;
-    }
-
-    public void saveStateToFile(String saveFileName) {
-        try {
-            FileOutputStream saveFile = new FileOutputStream(saveFileName);
-            ObjectOutputStream out = new ObjectOutputStream(saveFile);
-            out.writeObject(this);
-            out.close();
-            saveFile.close();
-            logger.info("Saved to " + saveFileName);
-
-            String uuidFileName = saveFileName + ".uuid";
-            BufferedWriter buf = new BufferedWriter(new FileWriter(uuidFileName, false));
-
-            for (Map.Entry<UUID, Player> entry: this.getPlayers().entrySet()) {
-                buf.write(entry.getKey().toString() + "\t" + entry.getValue().getName() + "\n");
-            }
-            buf.close();
-            logger.info("Saved to " + uuidFileName);
-        } catch (IOException i) {
-            i.printStackTrace();
-        }
     }
 
     public void clearOnGameRestart() {

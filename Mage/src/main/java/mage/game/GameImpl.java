@@ -64,12 +64,7 @@ import mage.watchers.Watcher;
 import mage.watchers.common.*;
 import org.apache.log4j.Logger;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
@@ -745,12 +740,6 @@ public abstract class GameImpl implements Game {
         }
     }
 
-    public void saveStateToFile(String saveFileName) {
-        if (!simulation && gameStates != null) {
-            state.saveStateToFile(saveFileName);
-        }
-    }
-
     //    /**
 //     * Starts check if game is over or if playerId is given let the player
 //     * concede.
@@ -908,16 +897,73 @@ public abstract class GameImpl implements Game {
         return null;
     }
 
-    public GameState restoreStateFromFile(String saveFileName) {
-        GameState restore = GameState.restoreStateFromFile(saveFileName);
-        if (restore != null) {
-           state.restore(restore);
-           playerList.setCurrent(state.getPlayerByOrderId());
-           logger.info("Restored state from " + saveFileName);
-           return state;
+    public synchronized void restoreHack(GameImpl game) {
+        for (Entry<UUID, Card> entry : game.gameCards.entrySet()) {
+            this.gameCards.put(entry.getKey(), entry.getValue().copy());
         }
-        return null;
+        for (Entry<UUID, MeldCard> entry : game.meldCards.entrySet()) {
+            this.meldCards.put(entry.getKey(), entry.getValue().copy());
+        }
 
+        state.restoreForRollBack(game.state);
+        playerList.setCurrent(state.getPlayerByOrderId());
+
+        // Reset temporary created bookmarks because no longer valid after rollback
+        savedStates.clear();
+        gameStates.clear();
+        // because restore uses the objects without copy each copy the state again
+        gameStatesRollBack.put(getTurnNum(), state.copy());
+
+        for (Player playerObject : getPlayers().values()) {
+            if (playerObject.isInGame()) {
+                playerObject.abortReset();
+            }
+        }
+    }
+
+    @Override
+    public GameImpl restoreGameFromFile(String saveFileName) {
+        GameImpl restore = null;
+        try {
+            FileInputStream fileIn = new FileInputStream(saveFileName);
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            restore = (GameImpl) in.readObject();
+            in.close();
+            fileIn.close();
+        } catch (IOException i) {
+            i.printStackTrace();
+        } catch (ClassNotFoundException c) {
+            logger.error("Class not found during deserialization");
+            c.printStackTrace();
+        }
+
+        if (restore == null) {
+            logger.error("Could not restore state from " + saveFileName);
+        }
+        logger.info("Restored state from " + saveFileName);
+        return restore;
+    }
+
+    public void saveGameToFile(String saveFileName) {
+        try {
+            FileOutputStream saveFile = new FileOutputStream(saveFileName);
+            ObjectOutputStream out = new ObjectOutputStream(saveFile);
+            out.writeObject(this);
+            out.close();
+            saveFile.close();
+            logger.info("Saved to " + saveFileName);
+
+            String uuidFileName = saveFileName + ".uuid";
+            BufferedWriter buf = new BufferedWriter(new FileWriter(uuidFileName, false));
+
+            for (Map.Entry<UUID, Player> entry: this.getPlayers().entrySet()) {
+                buf.write(entry.getKey().toString() + "\t" + entry.getValue().getName() + "\n");
+            }
+            buf.close();
+            logger.info("Saved to " + uuidFileName);
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
     }
 
     @Override

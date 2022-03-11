@@ -47,6 +47,10 @@ import java.util.stream.Collectors;
 
 public interface Game extends MageItem, Serializable, Copyable<Game> {
 
+    void restoreHack(GameImpl game);
+    GameImpl restoreGameFromFile(String saveFileName);
+    void saveGameToFile(String saveFileName);
+
     MatchType getGameType();
 
     int getNumPlayers();
@@ -456,13 +460,9 @@ public interface Game extends MageItem, Serializable, Copyable<Game> {
     //game transaction methods
     void saveState(boolean bookmark);
 
-    void saveStateToFile(String saveFileName);
-
     int bookmarkState();
 
     GameState restoreState(int bookmark, String context);
-
-    GameState restoreStateFromFile(String saveFileName);
 
     void removeBookmark(int bookmark);
 
