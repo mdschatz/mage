@@ -9,13 +9,17 @@ import mage.constants.SubType;
  */
 public final class IllusionWhiteToken extends TokenImpl {
 
-    public IllusionWhiteToken() {
-        super("IllusionWhite", "1/1 white Illusion creature token");
+    public IllusionWhiteToken(int power_val, int toughness_val) {
+        super("IllusionWhite", power_val + "/" + toughness_val + " white Illusion creature token");
         cardType.add(CardType.CREATURE);
         color.setWhite(true);
         subtype.add(SubType.ILLUSION );
-        power = new MageInt(1);
-        toughness = new MageInt(1);
+        power = new MageInt(power_val);
+        toughness = new MageInt(toughness_val);
+    }
+
+    public IllusionWhiteToken() {
+        this(1, 1);
     }
 
     public IllusionWhiteToken(final IllusionWhiteToken token) {

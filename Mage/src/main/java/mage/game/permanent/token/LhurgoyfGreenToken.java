@@ -9,13 +9,17 @@ import mage.constants.SubType;
  */
 public final class LhurgoyfGreenToken extends TokenImpl {
 
-    public LhurgoyfGreenToken() {
-        super("LhurgoyfGreen", "1/1 green Lhurgoyf creature token");
+    public LhurgoyfGreenToken(int power_val, int toughness_val) {
+        super("LhurgoyfGreen", power_val + "/" + toughness_val + " green Lhurgoyf creature token");
         cardType.add(CardType.CREATURE);
         color.setGreen(true);
         subtype.add(SubType.LHURGOYF );
-        power = new MageInt(1);
-        toughness = new MageInt(1);
+        power = new MageInt(power_val);
+        toughness = new MageInt(toughness_val);
+    }
+
+    public LhurgoyfGreenToken() {
+        this(1, 1);
     }
 
     public LhurgoyfGreenToken(final LhurgoyfGreenToken token) {

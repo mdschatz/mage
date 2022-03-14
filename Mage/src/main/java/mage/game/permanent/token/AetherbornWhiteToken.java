@@ -9,13 +9,17 @@ import mage.constants.SubType;
  */
 public final class AetherbornWhiteToken extends TokenImpl {
 
-    public AetherbornWhiteToken() {
-        super("AetherbornWhite", "1/1 white Aetherborn creature token");
+    public AetherbornWhiteToken(int power_val, int toughness_val) {
+        super("AetherbornWhite", power_val + "/" + toughness_val + " white Aetherborn creature token");
         cardType.add(CardType.CREATURE);
         color.setWhite(true);
         subtype.add(SubType.AETHERBORN );
-        power = new MageInt(1);
-        toughness = new MageInt(1);
+        power = new MageInt(power_val);
+        toughness = new MageInt(toughness_val);
+    }
+
+    public AetherbornWhiteToken() {
+        this(1, 1);
     }
 
     public AetherbornWhiteToken(final AetherbornWhiteToken token) {

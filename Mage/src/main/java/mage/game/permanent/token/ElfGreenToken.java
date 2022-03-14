@@ -9,13 +9,17 @@ import mage.constants.SubType;
  */
 public final class ElfGreenToken extends TokenImpl {
 
-    public ElfGreenToken() {
-        super("ElfGreen", "1/1 green Elf creature token");
+    public ElfGreenToken(int power_val, int toughness_val) {
+        super("ElfGreen", power_val + "/" + toughness_val + " green Elf creature token");
         cardType.add(CardType.CREATURE);
         color.setGreen(true);
         subtype.add(SubType.ELF );
-        power = new MageInt(1);
-        toughness = new MageInt(1);
+        power = new MageInt(power_val);
+        toughness = new MageInt(toughness_val);
+    }
+
+    public ElfGreenToken() {
+        this(1, 1);
     }
 
     public ElfGreenToken(final ElfGreenToken token) {

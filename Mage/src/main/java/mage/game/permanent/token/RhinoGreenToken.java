@@ -9,13 +9,17 @@ import mage.constants.SubType;
  */
 public final class RhinoGreenToken extends TokenImpl {
 
-    public RhinoGreenToken() {
-        super("RhinoGreen", "1/1 green Rhino creature token");
+    public RhinoGreenToken(int power_val, int toughness_val) {
+        super("RhinoGreen", power_val + "/" + toughness_val + " green Rhino creature token");
         cardType.add(CardType.CREATURE);
         color.setGreen(true);
         subtype.add(SubType.RHINO );
-        power = new MageInt(1);
-        toughness = new MageInt(1);
+        power = new MageInt(power_val);
+        toughness = new MageInt(toughness_val);
+    }
+
+    public RhinoGreenToken() {
+        this(1, 1);
     }
 
     public RhinoGreenToken(final RhinoGreenToken token) {

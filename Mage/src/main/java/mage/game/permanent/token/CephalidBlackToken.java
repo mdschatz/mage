@@ -9,13 +9,17 @@ import mage.constants.SubType;
  */
 public final class CephalidBlackToken extends TokenImpl {
 
-    public CephalidBlackToken() {
-        super("CephalidBlack", "1/1 black Cephalid creature token");
+    public CephalidBlackToken(int power_val, int toughness_val) {
+        super("CephalidBlack", power_val + "/" + toughness_val + " black Cephalid creature token");
         cardType.add(CardType.CREATURE);
         color.setBlack(true);
         subtype.add(SubType.CEPHALID );
-        power = new MageInt(1);
-        toughness = new MageInt(1);
+        power = new MageInt(power_val);
+        toughness = new MageInt(toughness_val);
+    }
+
+    public CephalidBlackToken() {
+        this(1, 1);
     }
 
     public CephalidBlackToken(final CephalidBlackToken token) {

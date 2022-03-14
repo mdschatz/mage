@@ -9,13 +9,17 @@ import mage.constants.SubType;
  */
 public final class MyrWhiteToken extends TokenImpl {
 
-    public MyrWhiteToken() {
-        super("MyrWhite", "1/1 white Myr creature token");
+    public MyrWhiteToken(int power_val, int toughness_val) {
+        super("MyrWhite", power_val + "/" + toughness_val + " white Myr creature token");
         cardType.add(CardType.CREATURE);
         color.setWhite(true);
         subtype.add(SubType.MYR );
-        power = new MageInt(1);
-        toughness = new MageInt(1);
+        power = new MageInt(power_val);
+        toughness = new MageInt(toughness_val);
+    }
+
+    public MyrWhiteToken() {
+        this(1, 1);
     }
 
     public MyrWhiteToken(final MyrWhiteToken token) {

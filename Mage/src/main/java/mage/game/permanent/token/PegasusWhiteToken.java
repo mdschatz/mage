@@ -9,13 +9,17 @@ import mage.constants.SubType;
  */
 public final class PegasusWhiteToken extends TokenImpl {
 
-    public PegasusWhiteToken() {
-        super("PegasusWhite", "1/1 white Pegasus creature token");
+    public PegasusWhiteToken(int power_val, int toughness_val) {
+        super("PegasusWhite", power_val + "/" + toughness_val + " white Pegasus creature token");
         cardType.add(CardType.CREATURE);
         color.setWhite(true);
         subtype.add(SubType.PEGASUS );
-        power = new MageInt(1);
-        toughness = new MageInt(1);
+        power = new MageInt(power_val);
+        toughness = new MageInt(toughness_val);
+    }
+
+    public PegasusWhiteToken() {
+        this(1, 1);
     }
 
     public PegasusWhiteToken(final PegasusWhiteToken token) {

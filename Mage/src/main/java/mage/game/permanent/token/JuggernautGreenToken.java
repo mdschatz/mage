@@ -9,13 +9,17 @@ import mage.constants.SubType;
  */
 public final class JuggernautGreenToken extends TokenImpl {
 
-    public JuggernautGreenToken() {
-        super("JuggernautGreen", "1/1 green Juggernaut creature token");
+    public JuggernautGreenToken(int power_val, int toughness_val) {
+        super("JuggernautGreen", power_val + "/" + toughness_val + " green Juggernaut creature token");
         cardType.add(CardType.CREATURE);
         color.setGreen(true);
         subtype.add(SubType.JUGGERNAUT);
-        power = new MageInt(1);
-        toughness = new MageInt(1);
+        power = new MageInt(power_val);
+        toughness = new MageInt(toughness_val);
+    }
+
+    public JuggernautGreenToken() {
+        this(1, 1);
     }
 
     public JuggernautGreenToken(final JuggernautGreenToken token) {

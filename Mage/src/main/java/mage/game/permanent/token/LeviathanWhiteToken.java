@@ -9,13 +9,17 @@ import mage.constants.SubType;
  */
 public final class LeviathanWhiteToken extends TokenImpl {
 
-    public LeviathanWhiteToken() {
-        super("LeviathanWhite", "1/1 white Leviathan creature token");
+    public LeviathanWhiteToken(int power_val, int toughness_val) {
+        super("LeviathanWhite", power_val + "/" + toughness_val + " white Leviathan creature token");
         cardType.add(CardType.CREATURE);
         color.setWhite(true);
         subtype.add(SubType.LEVIATHAN );
-        power = new MageInt(1);
-        toughness = new MageInt(1);
+        power = new MageInt(power_val);
+        toughness = new MageInt(toughness_val);
+    }
+
+    public LeviathanWhiteToken() {
+        this(1, 1);
     }
 
     public LeviathanWhiteToken(final LeviathanWhiteToken token) {

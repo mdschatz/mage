@@ -9,13 +9,17 @@ import mage.constants.SubType;
  */
 public final class SliverWhiteToken extends TokenImpl {
 
-    public SliverWhiteToken() {
-        super("SliverWhite", "1/1 white Sliver creature token");
+    public SliverWhiteToken(int power_val, int toughness_val) {
+        super("SliverWhite", power_val + "/" + toughness_val + " white Sliver creature token");
         cardType.add(CardType.CREATURE);
         color.setWhite(true);
         subtype.add(SubType.SLIVER );
-        power = new MageInt(1);
-        toughness = new MageInt(1);
+        power = new MageInt(power_val);
+        toughness = new MageInt(toughness_val);
+    }
+
+    public SliverWhiteToken() {
+        this(1, 1);
     }
 
     public SliverWhiteToken(final SliverWhiteToken token) {

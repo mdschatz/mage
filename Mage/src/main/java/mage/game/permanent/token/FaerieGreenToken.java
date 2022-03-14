@@ -9,13 +9,17 @@ import mage.constants.SubType;
  */
 public final class FaerieGreenToken extends TokenImpl {
 
-    public FaerieGreenToken() {
-        super("FaerieGreen", "1/1 green Faerie creature token");
+    public FaerieGreenToken(int power_val, int toughness_val) {
+        super("FaerieGreen", power_val + "/" + toughness_val + " green Faerie creature token");
         cardType.add(CardType.CREATURE);
         color.setGreen(true);
         subtype.add(SubType.FAERIE );
-        power = new MageInt(1);
-        toughness = new MageInt(1);
+        power = new MageInt(power_val);
+        toughness = new MageInt(toughness_val);
+    }
+
+    public FaerieGreenToken() {
+        this(1, 1);
     }
 
     public FaerieGreenToken(final FaerieGreenToken token) {

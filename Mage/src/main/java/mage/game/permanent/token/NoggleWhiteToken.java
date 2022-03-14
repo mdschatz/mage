@@ -9,13 +9,17 @@ import mage.constants.SubType;
  */
 public final class NoggleWhiteToken extends TokenImpl {
 
-    public NoggleWhiteToken() {
-        super("NoggleWhite", "1/1 white Noggle creature token");
+    public NoggleWhiteToken(int power_val, int toughness_val) {
+        super("NoggleWhite", power_val + "/" + toughness_val + " white Noggle creature token");
         cardType.add(CardType.CREATURE);
         color.setWhite(true);
         subtype.add(SubType.NOGGLE );
-        power = new MageInt(1);
-        toughness = new MageInt(1);
+        power = new MageInt(power_val);
+        toughness = new MageInt(toughness_val);
+    }
+
+    public NoggleWhiteToken() {
+        this(1, 1);
     }
 
     public NoggleWhiteToken(final NoggleWhiteToken token) {

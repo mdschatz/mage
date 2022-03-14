@@ -9,13 +9,17 @@ import mage.constants.SubType;
  */
 public final class DemonWhiteToken extends TokenImpl {
 
-    public DemonWhiteToken() {
-        super("DemonWhite", "1/1 white Demon creature token");
+    public DemonWhiteToken(int power_val, int toughness_val) {
+        super("DemonWhite", power_val + "/" + toughness_val + " white Demon creature token");
         cardType.add(CardType.CREATURE);
         color.setWhite(true);
         subtype.add(SubType.DEMON );
-        power = new MageInt(1);
-        toughness = new MageInt(1);
+        power = new MageInt(power_val);
+        toughness = new MageInt(toughness_val);
+    }
+
+    public DemonWhiteToken() {
+        this(1, 1);
     }
 
     public DemonWhiteToken(final DemonWhiteToken token) {

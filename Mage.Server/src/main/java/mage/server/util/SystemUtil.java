@@ -496,8 +496,21 @@ public final class SystemUtil {
                 if ("token".equalsIgnoreCase(command.zone)) {
                     // eg: token:Human:HippoToken:1
                     Class<?> c = Class.forName("mage.game.permanent.token." + command.cardName);
-                    Constructor<?> cons = c.getConstructor();
-                    Object obj = cons.newInstance();
+                    Constructor<?> cons;
+                    if (command.cardSet.equals("")) {
+                        cons = c.getConstructor();
+                    } else {
+                        cons = c.getConstructor(int.class, int.class);
+                    }
+
+                    Object obj;
+                    if (command.cardSet.equals("")) {
+                        obj = cons.newInstance();
+                    } else {
+                        // Hack to leverage cardSet as P/T
+                        int pt = Integer.parseInt(command.cardSet);
+                        obj = cons.newInstance(pt, pt);
+                    }
                     if (obj instanceof Token) {
                         Token token = (Token) obj;
                         Ability fakeSourceAbility = fakeSourceAbilityTemplate.copy();

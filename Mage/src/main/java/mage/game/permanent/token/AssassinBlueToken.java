@@ -9,13 +9,17 @@ import mage.constants.SubType;
  */
 public final class AssassinBlueToken extends TokenImpl {
 
-    public AssassinBlueToken() {
-        super("AssassinBlue", "1/1 blue Assassin creature token");
+    public AssassinBlueToken(int power_val, int toughness_val) {
+        super("AssassinBlue", power_val + "/" + toughness_val + " blue Assassin creature token");
         cardType.add(CardType.CREATURE);
         color.setBlue(true);
         subtype.add(SubType.ASSASSIN );
-        power = new MageInt(1);
-        toughness = new MageInt(1);
+        power = new MageInt(power_val);
+        toughness = new MageInt(toughness_val);
+    }
+
+    public AssassinBlueToken() {
+        this(1, 1);
     }
 
     public AssassinBlueToken(final AssassinBlueToken token) {

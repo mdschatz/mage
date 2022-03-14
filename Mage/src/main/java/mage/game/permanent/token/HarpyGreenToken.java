@@ -9,13 +9,17 @@ import mage.constants.SubType;
  */
 public final class HarpyGreenToken extends TokenImpl {
 
-    public HarpyGreenToken() {
-        super("HarpyGreen", "1/1 green Harpy creature token");
+    public HarpyGreenToken(int power_val, int toughness_val) {
+        super("HarpyGreen", power_val + "/" + toughness_val + " green Harpy creature token");
         cardType.add(CardType.CREATURE);
         color.setGreen(true);
         subtype.add(SubType.HARPY );
-        power = new MageInt(1);
-        toughness = new MageInt(1);
+        power = new MageInt(power_val);
+        toughness = new MageInt(toughness_val);
+    }
+
+    public HarpyGreenToken() {
+        this(1, 1);
     }
 
     public HarpyGreenToken(final HarpyGreenToken token) {
