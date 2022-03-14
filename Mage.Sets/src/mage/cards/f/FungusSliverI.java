@@ -31,8 +31,17 @@ public final class FungusSliverI extends CardImpl {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{3}{G}");
         this.subtype.add(SubType.FUNGUS);
         this.subtype.add(SubType.SLIVER);
-        this.power = new MageInt(2);
-        this.toughness = new MageInt(2);
+        this.subtype.add(SubType.ASSEMBLY_WORKER); // Apply Olivia Voldaren
+
+        // Absorb initial Dread of Night Black
+        this.power = new MageInt(4);
+        this.toughness = new MageInt(4);
+
+        // Apply Prismatic Lace
+        this.color.setBlack(true);
+        this.color.setGreen(true);
+        this.color.setRed(true);
+        this.color.setWhite(true);
 
         // All Sliver creatures have "Whenever this creature is dealt damage, put a +1/+1 counter on it."
         this.addAbility(new SimpleStaticAbility(Zone.BATTLEFIELD, new GainAbilityAllEffect(

@@ -28,8 +28,18 @@ public final class RotlungReanimatorLCB extends CardImpl {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{2}{B}");
         this.subtype.add(SubType.ZOMBIE);
         this.subtype.add(SubType.CLERIC);
-        this.power = new MageInt(2);
-        this.toughness = new MageInt(2);
+
+        // Absorb initial Dread of Night Black
+        this.power = new MageInt(4);
+        this.toughness = new MageInt(4);
+
+        this.subtype.add(SubType.ASSEMBLY_WORKER); // Apply Olivia Voldaren
+
+        // Apply Prismatic Lace
+        this.color.setBlack(true);
+        this.color.setGreen(true);
+        this.color.setRed(true);
+        this.color.setWhite(true);
 
         // Whenever Rotlung Reanimator or another Lhurgoyf dies, create a 2/2 black Cephalid creature token.
         this.addAbility(new DiesThisOrAnotherCreatureTriggeredAbility(new CreateTokenEffect(new CephalidBlackToken()), false, filter));

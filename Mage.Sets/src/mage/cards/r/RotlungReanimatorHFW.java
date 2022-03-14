@@ -28,8 +28,16 @@ public final class RotlungReanimatorHFW extends CardImpl {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{2}{B}");
         this.subtype.add(SubType.ZOMBIE);
         this.subtype.add(SubType.CLERIC);
-        this.power = new MageInt(2);
-        this.toughness = new MageInt(2);
+
+        // Absorb initial Dread of Night Black
+        this.power = new MageInt(4);
+        this.toughness = new MageInt(4);
+
+        // Apply Prismatic Lace
+        this.color.setBlack(true);
+        this.color.setGreen(true);
+        this.color.setRed(true);
+        this.color.setWhite(true);
 
         // Whenever Rotlung Reanimator or another Harpy dies, create a 2/2 white Faerie creature token.
         this.addAbility(new DiesThisOrAnotherCreatureTriggeredAbility(new CreateTokenEffect(new FaerieWhiteToken()), false, filter));

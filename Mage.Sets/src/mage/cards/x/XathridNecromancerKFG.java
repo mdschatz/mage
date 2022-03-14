@@ -33,8 +33,15 @@ public final class XathridNecromancerKFG extends CardImpl {
         this.subtype.add(SubType.HUMAN);
         this.subtype.add(SubType.WIZARD);
 
-        this.power = new MageInt(2);
-        this.toughness = new MageInt(2);
+        // Absorb initial Dread of Night Black
+        this.power = new MageInt(4);
+        this.toughness = new MageInt(4);
+
+        // Apply Prismatic Lace
+        this.color.setBlack(true);
+        this.color.setGreen(true);
+        this.color.setRed(true);
+        this.color.setWhite(true);
 
         // Whenever Xathrid Necromancer or another Kavu creature you control dies, create a tapped 2/2 green Faerie creature token.
         Effect effect = new CreateTokenEffect(new FaerieGreenToken(), 1, true, false);
