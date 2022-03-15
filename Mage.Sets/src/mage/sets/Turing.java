@@ -69,5 +69,6 @@ public final class Turing extends ExpansionSet {
 	cards.add(new SetCardInfo("Dread of Night Black", 42, Rarity.COMMON, mage.cards.d.DreadOfNightB.class));
 	cards.add(new SetCardInfo("Blazing Archon AssemblyWorker", 43, Rarity.COMMON, mage.cards.b.BlazingArchonAssemblyWorker.class));
 	cards.add(new SetCardInfo("Vigor AssemblyWorker", 44, Rarity.COMMON, mage.cards.v.VigorAssemblyWorker.class));
+	cards.add(new SetCardInfo("Ancient Tomb Rainbow", 45, Rarity.COMMON, mage.cards.a.AncientTombRainbow.class));
     }
 }
