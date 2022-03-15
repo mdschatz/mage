@@ -71,6 +71,9 @@ public final class SystemUtil {
     private static final String COMMAND_SHOW_MY_HAND = "@show my hand";
     private static final String COMMAND_SHOW_MY_LIBRARY = "@show my library";
     private static final String COMMAND_ACTIVATE_OPPONENT_ABILITY = "@activate opponent ability";
+    private static final String COMMAND_CLEAR_HANDS = "@clear hands";
+    private static final String COMMAND_CLEAR_LIBRARIES = "@clear libraries";
+    private static final String COMMAND_CLEAR_BATTLEFIELD_SETUP = "@clear battlefield setup";
     private static final Map<String, String> supportedCommands = new HashMap<>();
 
     static {
@@ -83,6 +86,9 @@ public final class SystemUtil {
         supportedCommands.put(COMMAND_SHOW_MY_HAND, "SHOW MY HAND");
         supportedCommands.put(COMMAND_SHOW_MY_LIBRARY, "SHOW MY LIBRARY");
         supportedCommands.put(COMMAND_ACTIVATE_OPPONENT_ABILITY, "ACTIVATE OPPONENT ABILITY");
+        supportedCommands.put(COMMAND_CLEAR_HANDS, "CLEAR HANDS");
+        supportedCommands.put(COMMAND_CLEAR_LIBRARIES, "CLEAR LIBRARIES");
+        supportedCommands.put(COMMAND_CLEAR_BATTLEFIELD_SETUP, "CLEAR BATTLEFIELD SETUP");
     }
 
     private static final Pattern patternGroup = Pattern.compile("\\[(.+)\\]"); // [test new card]
@@ -403,6 +409,54 @@ public final class SystemUtil {
                     case COMMAND_SHOW_MY_LIBRARY:
                         info = getCardsListForSpecialInform(game, feedbackPlayer.getLibrary().getCardList(), runGroup.commands);
                         game.informPlayer(feedbackPlayer, info);
+                        break;
+
+                    case COMMAND_CLEAR_HANDS:
+                        if (opponent != null) {
+                            for(Card card: opponent.getHand().getCards(game)) {
+                                Ability fakeSourceAbility = fakeSourceAbilityTemplate.copy();
+                                fakeSourceAbility.setSourceId(card.getId());
+                                card.removeFromZone(game, Zone.HAND, fakeSourceAbility);
+                            }
+                            game.informPlayers("Cleared opponent hand");
+                        }
+                        for(Card card: feedbackPlayer.getHand().getCards(game)) {
+                            Ability fakeSourceAbility = fakeSourceAbilityTemplate.copy();
+                            fakeSourceAbility.setSourceId(card.getId());
+                            card.removeFromZone(game, Zone.HAND, fakeSourceAbility);
+                        }
+                        game.informPlayers("Cleared my hand");
+                        break;
+
+                    case COMMAND_CLEAR_LIBRARIES:
+                        feedbackPlayer.getLibrary().clear();
+                        game.informPlayers("Cleared my library");
+                        if (opponent != null) {
+                            opponent.getLibrary().clear();
+                            game.informPlayers("Cleared opponent library");
+                        }
+                        break;
+
+                    case COMMAND_CLEAR_BATTLEFIELD_SETUP:
+                        List<Permanent> permanents = game.getBattlefield().getAllActivePermanents(feedbackPlayer.getId());
+                        permanents.addAll(game.getBattlefield().getAllActivePermanents(opponent.getId()));
+                        for (Permanent perm : permanents) {
+                            Card card = perm.getMainCard();
+                            String cardName = card.getName();
+                            logger.info(cardName);
+                            if (
+                                cardName.equals("Forest") ||
+                                cardName.equals("Island") ||
+                                cardName.equals("Mountain") ||
+                                cardName.equals("Plains") ||
+                                cardName.equals("Swamp")
+                            ) {
+                                Ability fakeSourceAbility = fakeSourceAbilityTemplate.copy();
+                                fakeSourceAbility.setSourceId(card.getId());
+                                putCardToZone(fakeSourceAbility, game, feedbackPlayer, card, Zone.EXILED);
+                            }
+                        }
+                        game.informPlayers("Cleared battlefield");
                         break;
 
                     case COMMAND_ACTIVATE_OPPONENT_ABILITY:
